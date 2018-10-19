@@ -1,5 +1,9 @@
 #!/bin/bash
-## This is the a personal Nagios installer
+##
+## DISCLAIMER: This is meant for Personal Use.
+## STATUS: Ongoing
+## WHAT: This is a personal Nagios installer
+## GOAL: Install Nagios on RHEL or CentOS GNU/Linux Distro.
 
 ## Variables
 DATE=`date +%F`
