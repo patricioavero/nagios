@@ -24,8 +24,13 @@ install_pkg () {
 	local PKG=$1
 
 	log2file "Installing the package ${PKG}"
-
 	yum install -y ${PKG}
+	local PKG_INST_RESULT=$?
+
+	if [ ${PKG_INST_RESULT} -eq 0 ]
+	then
+		log2file "The installation of ${PKG} has been successfully accomplished"
+	fi
 }
 
 check_installed_pkg () {
