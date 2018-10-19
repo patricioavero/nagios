@@ -64,7 +64,7 @@ log2file "======================================================"
 log2file ""
 log2file ""
 
-## Check if the user ir root
+## Check if the user is root or not
 if [ "${EUID}" != 0 ]
 then
 	log2file "======================================================"
