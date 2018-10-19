@@ -84,13 +84,11 @@ then
 	then
 		log2file "Installing EPEL repo base on Centos 7 method"
 		install_pkg ${PKG_EPEL}
-		check_installed_pkg ${PKG_EPEL}
 
 	elif [ "${OS_NAME}" == "rhel"]
 	then
 		log2file "Instsalling EPEL repo base on RHEL 7 method"
 		install_pkg https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-		check_installed_pkg ${PKG_EPEL}
 	fi
 fi
 ## [ END EPEL ] ##########################
@@ -109,6 +107,5 @@ do
 		install_pkg ${i}
 	fi
 
-	check_installed_pkg ${i}
 done
 ## [ END Packages Installation ] ##########
