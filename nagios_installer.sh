@@ -8,7 +8,6 @@ PID=$$
 OS_NAME=`grep "^ID\b" /etc/os-release | cut -d "=" -f2 | cut -d "\"" -f2`
 LOG_FILE="./nagios-installer_${PID}_${DATE}-${TIME}.log"
 PKGS2INSTALL="httpd php gcc glibc glibc-common make gd gd-devel net-snmp"
-#PKGS2INSTALL="httpd"
 
 ## Functions
 
@@ -23,13 +22,15 @@ log2file () {
 install_pkg () {
 	local PKG=$1
 
-	log2file "Installing the package ${PKG}"
+	log2file "Installing the package ${PKG}..."
 	yum install -y ${PKG}
 	local PKG_INST_RESULT=$?
 
 	if [ ${PKG_INST_RESULT} -eq 0 ]
 	then
-		log2file "The installation of ${PKG} has been successfully accomplished"
+		log2file "The installation of ${PKG} has been successfully accomplished."
+	else
+		log2file "Something appear to went wrong with the installation of ${PKG}."
 	fi
 }
 
