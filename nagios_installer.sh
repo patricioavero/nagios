@@ -12,6 +12,8 @@ PID=$$
 OS_NAME=`grep "^ID\b" /etc/os-release | cut -d "=" -f2 | cut -d "\"" -f2`
 LOG_FILE="./nagios-installer_${PID}_${DATE}-${TIME}.log"
 PKGS2INSTALL="httpd php gcc glibc glibc-common make gd gd-devel net-snmp"
+USER_NAGIOS="nagios"
+GROUP_NAGIOS="nagcmd"
 
 ## Functions
 
@@ -58,6 +60,37 @@ check_installed_pkg () {
 
 }
 
+create_user () {
+	local USER=$1
+
+	useradd ${USER} -g ${GROUP_NAGIOS} 2>/dev/null
+	local RESULT=$?
+
+	if [ ${RESULT} -eq 0 ]
+	then
+		log2file "The user ${USER} has been successfully added."
+	elif [ ${RESULT} -eq 9 ]
+	then
+		log2file "The user ${USER} is already in the system."
+	fi
+	
+}
+
+create_group () {
+	local GROUP=$1
+
+	useradd ${GROUP} 2>/dev/null
+	local RESULT=$?
+
+	if [ ${RESULT} -eq 0 ]
+	then
+		log2file "The group ${GROUP} has been successfully added."
+	elif [ ${RESULT} -eq 9 ]
+	then
+		log2file "The group ${GROUP} is already in the system."
+	fi
+	
+}
 
 ## MAIN
 log2file "======================================================"
@@ -119,3 +152,7 @@ do
 
 done
 ## [ END Packages Installation ] ##########
+
+## Users and Groups creation ##############
+create_group ${GROUP_NAGIOS}
+create_user ${USER_NAGIOS}
