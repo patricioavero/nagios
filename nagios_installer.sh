@@ -161,3 +161,31 @@ wget ${NAGIOS_SFW} -O ${DOWNLOAD_DIR}/nagios_4.4.2.tar.gz
 wget ${NAGIOS_PLUGINS} -O ${DOWNLOAD_DIR}/nagios_plugins_2.2.1.tar.gz
 ## [ END Downloads ] ######
 
+## Unzip + Untar the installers
+tar -zxf ${DOWNLOAD_DIR}/nagios_4.4.2.tar.gz
+tar -zxf ${DOWNLOAD_DIR}/nagios_plugins_2.2.1.tar.gz
+## [END of unzip and untar ] ##############
+
+## Install nagios and its plugin
+cd  ${DOWNLOAD_DIR}/nagios-4.4.2
+./configure --with-command-group=nagcmd && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf
+echo ${NAGIOS_ADMIN_PASSWORD} | htpasswd -b -s -c /usr/local/nagios/etc/htpasswd.users ${NAGIOS_ADMIN_USER}
+RESULT_NAGIOS_INSTALLATION=$?
+
+if [ ${RESULT_NAGIOS_INSTALLATION} -eq 0 ]
+then
+	log2file "Nagios Sofware has been successfully installed."
+else
+	log2file "Something went wrong with the installation of Nagios"
+fi
+
+cd ${DOWNLOAD_DIR}/nagios-plugins-2.2.1
+./configure --with-nagios-user=nagios --with-nagios-group=nagios && make && make install
+RESULT_PLUGIN_INSTALLATION=$?
+
+if [ ${RESULT_PLUGIN_INSTALLATION} -eq 0 ]
+then
+	log2file "PLugins has been successfully installed."
+else
+	log2file "Something went wrong with the installation of Nagios Plugins"
+fi
