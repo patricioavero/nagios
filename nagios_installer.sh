@@ -14,7 +14,9 @@ LOG_FILE="./nagios-installer_${PID}_${DATE}-${TIME}.log"
 PKGS2INSTALL="httpd php gcc glibc glibc-common make gd gd-devel net-snmp"
 USER_NAGIOS="nagios"
 GROUP_NAGIOS="nagcmd"
-
+NAGIOS_SFW="https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.2.tar.gz?__hstc=118811158.3adf54286ce2b00626c67842c7a6451e.1536434476127.1537402227302.1540145883596.3&__hssc=118811158.2.1540145883596&__hsfp=4002812518#_ga=2.248916295.138051336.1540145882-202040438.1536180874"
+NAGIOS_PLUGINS="https://nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz#_ga=2.248916295.138051336.1540145882-202040438.1536180874"
+DOWNLOAD_DIR="/var/tmp"
 ## Functions
 
 log2file () {
@@ -56,8 +58,6 @@ check_installed_pkg () {
 		log2file "The package ${PKG} is not installed"
 		return 11
 	fi
-
-
 }
 
 create_user () {
@@ -73,7 +73,6 @@ create_user () {
 	then
 		log2file "The user ${USER} is already in the system."
 	fi
-	
 }
 
 create_group () {
@@ -89,7 +88,6 @@ create_group () {
 	then
 		log2file "The group ${GROUP} is already in the system."
 	fi
-	
 }
 
 ## MAIN
@@ -156,3 +154,10 @@ done
 ## Users and Groups creation ##############
 create_group ${GROUP_NAGIOS}
 create_user ${USER_NAGIOS}
+## [ END Users and groups creation ] ######
+
+## Download the files needed for the installation 
+wget ${NAGIOS_SFW} -O ${DOWNLOAD_DIR}/nagios_4.4.2.tar.gz
+wget ${NAGIOS_PLUGINS} -O ${DOWNLOAD_DIR}/nagios_plugins_2.2.1.tar.gz
+## [ END Downloads ] ######
+
